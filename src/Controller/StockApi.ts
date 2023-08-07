@@ -1,11 +1,15 @@
 import { Request, Response } from 'express'
 import { RespondError, RespondSuccess } from '../utils'
+import { getQuotes } from '../utils/axios'
 
-export const GetHistory = async (req: Request, res: Response) => {
+export const GetStockNews = async (req: Request, res: Response) => {
     try {
-        return RespondSuccess(res, 200, { } , "Data fetched successfully")
+        const  StockNews = await getQuotes('GET','https://mboum-finance.p.rapidapi.com/ne/news')
+        console.log(StockNews)
+        return RespondSuccess(res, 200, StockNews , "Data fetched successfully")
     } catch (error) {
         console.log('Error in Fetching data', error)
         return RespondError(res, 500, "Internal Server Error", error.message)
     }
 }
+
